@@ -7,6 +7,20 @@ class MissingERC721SafeTransferDetector(AbstractDetector):
     HELP = "Detects ERC721 contracts that implement safeTransferFrom(address,address,uint256) but miss the required 4-argument version with bytes data"
     IMPACT = DetectorClassification.MEDIUM
     CONFIDENCE = DetectorClassification.HIGH
+    WIKI = "https://github.com/9hostguard/slither-nft-detector"
+
+    WIKI_TITLE = "Missing ERC721 safeTransferFrom"
+    WIKI_DESCRIPTION = "Detects ERC721 contracts that implement the 3-argument safeTransferFrom but omit the required 4-argument version with bytes data."
+    WIKI_EXPLOIT_SCENARIO = """
+```solidity
+contract InsecureNFT {
+    function safeTransferFrom(address from, address to, uint256 tokenId) public {
+        // Missing bytes data param
+    }
+}
+```
+The ERC721 standard requires both safeTransferFrom(address,address,uint256) and safeTransferFrom(address,address,uint256,bytes) functions."""
+    WIKI_RECOMMENDATION = "Implement the 4-argument version of safeTransferFrom that includes the bytes data parameter to be fully ERC721 compliant."
 
     def _detect(self):
         results = []

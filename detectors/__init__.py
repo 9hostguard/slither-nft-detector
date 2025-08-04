@@ -1,0 +1,1 @@
+# This file makes the detectors directory a Python package
