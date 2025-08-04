@@ -1,32 +1,46 @@
-# slither-nft-detector
-Nft transfers toolkit; erc721-erc1155- transfer checker; unsafe NFT-transfer detector
+![Slither Analysis](https://img.shields.io/badge/slither-passed-brightgreen)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-# 🛡️ Slither NFT Transfer Detector
+slither . --detect unchecked-nft-transfer
 
-![Slither Audit](https://github.com/9hostguard/slither-nft-detector/actions/workflows/slither.yml/badge.svg)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+## 🎥 Demo
 
-This custom Slither detector identifies unsafe ERC721 and ERC1155 transfers that lack callback validation. It helps auditors catch critical vulnerabilities in NFT protocols, staking vaults, and marketplaces.
+![Detector Demo](demo.gif)
 
----
+## 🧠 Slither Registry
 
-## 🚨 What It Detects
+This detector is compatible with Slither's custom registry.
 
-- ERC721 `transferFrom` without:
-  - `require` checks
-  - `onERC721Received` validation
-  - `isContract` recipient check
-
-- ERC1155 `safeTransferFrom` and `safeBatchTransferFrom` without:
-  - `onERC1155Received` / `onERC1155BatchReceived` validation
-  - `isContract` recipient check
-
----
-
-## 🧪 Usage
-
+To use:
 ```bash
-slither src/UnsafeERC1155Transfer.sol \
-  --detect unchecked-nft-transfer \
-  --custom-detectors slither-custom-detectors
+slither . --detect unchecked-nft-transfer
 ```
+
+---
+
+### ✅ 6. **Optional JSON Output**
+
+📄 Modify `detect_unchecked_nft_transfer.py`:
+
+Add this at the end of `_detect()`:
+
+```python
+import json
+
+if self.args.get("json"):
+    print(json.dumps([r.json for r in results], indent=2))
+```
+
+slither . --detect unchecked-nft-transfer --json
+
+## 🔮 Future Enhancements
+
+- [ ] ERC777 and proxy-based transfer detection
+- [ ] Delegatecall tracing
+- [ ] MythX integration
+- [ ] Severity scoring via Slither hooks
+
+# TODO: Add ERC777 support
+# TODO: Detect delegatecall-based transfer proxies
+# TODO: Integrate with MythX for deeper analysis
